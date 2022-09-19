@@ -1,5 +1,5 @@
-#from test.s_base.pages.blog_all_page import BlogAllPage
 from examples.nypl_pages.blog_all_page import BlogAllPage
+
 
 class BlogAllTests(BlogAllPage):
 
@@ -75,8 +75,8 @@ class BlogAllTests(BlogAllPage):
             print(keywords[x])
             print(str(count))
             # asserting count number for the keyword appears more than expected (3 for now)
-            # count number set as 3, optional to change
-            self.assert_true(count >= 3,
+            # count number set as 1, optional to change
+            self.assert_true(count >= 1,
                              str(count) + " times selected " + keywords[x] + " channel and the content matches")
             self.click(self.channels)
             self.click(self.li_dic["" + li[x] + ""])
@@ -102,7 +102,7 @@ class BlogAllTests(BlogAllPage):
         for x in range(0, 7):
             count = 0
             # categories that do not have significant keyword amount in this list, will be skipped testing
-            low_amount = [4]
+            low_amount = [3, 4]
             if x in low_amount:
                 continue
             self.click(self.li_dic["" + li[x] + ""])
@@ -120,7 +120,7 @@ class BlogAllTests(BlogAllPage):
                     count += 1
             print(keywords[x])
             print(str(count))
-            # count number set as 3, optional to change
+            # count number set as 1, optional to change
             self.assert_true(count >= 1,
                              str(count) + " times selected " + keywords[x] + " channel and the content don't match")
             self.click(self.subjects)
@@ -156,6 +156,7 @@ class BlogAllTests(BlogAllPage):
             self.click(self.apply_library)
 
             # retrieving each word from the library links and putting them in a dictionary
+            print("x is = " + str(x))
             self.wait_for_element('/html/body/div[1]/div/div/main/div[2]/div[1]/div[2]/ul/li[1]/div'
                                   '/div['
                                   '2]/div[1]/div[2]')
