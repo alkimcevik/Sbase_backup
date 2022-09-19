@@ -41,22 +41,26 @@ class FooterTest(Footer):
         # social media assertions
         social_media = ["facebook", "twitter", "instagram", "youtube"]
 
+        self.wait(2)
         self.assert_element(self.facebook)
         self.click(self.facebook)
         self.wait(2)
         print(self.get_current_url())
         self.assert_true("facebook" in self.get_current_url())
         self.go_back()
+        self.wait(2)
 
         self.assert_element(self.twitter)
         self.click(self.twitter)
         self.assert_true('twitter' in self.get_current_url())
         self.go_back()
+        self.wait(2)
 
         self.assert_element(self.instagram)
         self.click(self.instagram)
         self.assert_true('instagram' in self.get_current_url())
         self.go_back()
+        self.wait(2)
 
         self.assert_element(self.youtube)
         self.click(self.youtube)
