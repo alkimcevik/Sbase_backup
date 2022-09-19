@@ -213,7 +213,7 @@ class BlogTests(BlogPage):
         self.assert_true('https://www.nypl.org/blog/all?channel=' in self.get_current_url())
         self.go_back()
         # Poetry & Book Lists paragraph texts assertion
-        first_box_text = '//*[@id="5eb77111-5a8d-41ff-b9a8-517afe7c9123"]/div[2]/div/div'
-        second_box_text = '//*[@id="23ac5b87-b43e-4ba0-859a-86e3ca9f9954"]/div[2]/div/div'
+        first_box_text = '/html/body/div[1]/div/div[2]/main/div[2]/div[1]/div[2]/ul/li[1]/div/div[2]/div/div'
+        second_box_text = '/html/body/div[1]/div/div[2]/main/div[2]/div[1]/div[2]/ul/li[2]/div/div[2]/div/div'
         self.assert_element(first_box_text)
         self.assert_element(second_box_text)
