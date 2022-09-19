@@ -1,4 +1,5 @@
-from test.s_base.pages.header_page import Header
+#from test.s_base.pages.header_page import Header
+from examples.nypl_pages.header_page import Header
 
 
 class HeaderTest(Header):
