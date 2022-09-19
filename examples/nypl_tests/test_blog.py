@@ -141,14 +141,17 @@ class BlogTests(BlogPage):
     def test_support_nypl(self):
         # Support NYPL
         self.assert_text('Support NYPL', self.support_nypl)
+        self.wait(1)
 
         # Volunteer
         self.assert_link_text("Volunteer")
         self.assert_text("Volunteer", self.volunteer)
+        self.wait(1)
 
         # Support Your Library
         self.assert_link_text("Support Your Library")
         self.assert_text("Support Your Library", self.support_your_library)
+        self.wait(1)
 
         self.click_xpath(self.support_your_library)
         self.assert_true('donation' in self.get_current_url())
