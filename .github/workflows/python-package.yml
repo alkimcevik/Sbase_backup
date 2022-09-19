@@ -102,7 +102,7 @@ jobs:
     
     
     # NYPL tests start here
-    # footer, header, blog, blog all, book lists, campaigns, exhibitions, 
+    # footer, header, blog, blog all, book lists, campaigns, exhibitions, locations, online resources
     
     #- name: Run pytest examples/nypl_tests/test_footer.py --browser=chrome --xvfb
     #  run: |
@@ -138,9 +138,14 @@ jobs:
     #    pytest examples/nypl_tests/test_exhibitions.py --browser=chrome --headless -v -s 
         
         
-    - name: Run pytest examples/nypl_tests/test_locations.py --browser=chrome --xvfb
+    #- name: Run pytest examples/nypl_tests/test_locations.py --browser=chrome --xvfb
+    #  run: |
+    #    pytest examples/nypl_tests/test_locations.py --browser=chrome --headless -v -s 
+        
+        
+    - name: Run pytest examples/nypl_tests/test_online_resources.py --browser=chrome --xvfb
       run: |
-        pytest examples/nypl_tests/test_locations.py --browser=chrome --headless -v -s 
+        pytest examples/nypl_tests/test_online_resources.py --browser=chrome --headless -v -s 
     
     
     
