@@ -102,20 +102,25 @@ jobs:
     
     
     # NYPL tests start here
-    # footer, header, blog
+    # footer, header, blog, 
     
     #- name: Run pytest examples/nypl_tests/test_footer.py --browser=chrome --xvfb
     #  run: |
-    #    pytest examples/nypl_tests/test_footer.py --browser=chrome --headless -v -s --junit-xml=junit/test-results.xml
+    #    pytest examples/nypl_tests/test_footer.py --browser=chrome --headless -v -s
     
-    - name: Run pytest examples/nypl_tests/test_header.py --browser=chrome --xvfb
-      run: |
-        pytest examples/nypl_tests/test_header.py --browser=chrome --headless -v -s 
+    #- name: Run pytest examples/nypl_tests/test_header.py --browser=chrome --xvfb
+    #  run: |
+    #    pytest examples/nypl_tests/test_header.py --browser=chrome --headless -v -s 
     
     
     #- name: Run pytest examples/nypl_tests/test_blog.py --browser=chrome --xvfb
     #  run: |
-    #    pytest examples/nypl_tests/test_blog.py --browser=chrome --headless -v -s --junit-xml=junit/test-results.xml
+    #    pytest examples/nypl_tests/test_blog.py --browser=chrome --headless -v -s
+    
+    
+    - name: Run pytest examples/nypl_tests/test_blog_all.py --browser=chrome --xvfb
+      run: |
+        pytest examples/nypl_tests/test_blog_all.py --browser=chrome --headless -v -s 
     
     
     
