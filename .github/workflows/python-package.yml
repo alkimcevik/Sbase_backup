@@ -126,9 +126,15 @@ jobs:
     #- name: Run pytest examples/nypl_tests/test_book_lists.py --browser=chrome --xvfb
     #  run: |
     #    pytest examples/nypl_tests/test_book_lists.py --browser=chrome --headless -v -s 
+    
         
-    - name: Run pytest examples/nypl_tests/test_campaigns.py --browser=chrome --xvfb
+    #- name: Run pytest examples/nypl_tests/test_campaigns.py --browser=chrome --xvfb
+    #  run: |
+    #    pytest examples/nypl_tests/test_campaigns.py --browser=chrome --headless -v -s 
+    
+    
+    - name: Run pytest examples/nypl_tests/test_exhibitions.py --browser=chrome --xvfb
       run: |
-        pytest examples/nypl_tests/test_campaigns.py --browser=chrome --headless -v -s 
+        pytest examples/nypl_tests/test_exhibitions.py --browser=chrome --headless -v -s 
     
     
