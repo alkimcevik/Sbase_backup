@@ -62,26 +62,6 @@ jobs:
         nosetests nothing2.py
         
   # The next 3 steps are for building the web application to be tested and starting the web server on the runner environment
-    - name: 'Checkout the repository'
-      uses: actions/checkout@v2
-    - name: Run apt update
-      run: sudo apt update
-    - name: Uninstall existing libcurl4
-      run: sudo apt remove libcurl4
-    - name: Install libcurl4 for curb gem
-      run: sudo apt-get install libcurl4-openssl-dev
-    - name: Set up Ruby
-      uses: ruby/setup-ruby@v1 
-      with:
-        ruby-version: ${{ matrix.ruby-version }}
-    - name: Run bundler & gem installs
-      run: |
-        gem install bundler
-        bundle install --clean --force --gemfile=Gemfile
-    - name: 'Running application under test'
-      run: ./node_modules/.bin/http-server -p 8099 &
-    - name: 'Running test on BrowserStack'  # Invokes the actual test script that would run on BrowserStack browsers
-      run: target=mms_test app_type=headless browser_type=chrome bundle exec rspec
     - name: Get Allure history
       uses: actions/checkout@v2
       if: always()
