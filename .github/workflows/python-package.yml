@@ -1,13 +1,9 @@
 name: CI build
 
 on:
-  pull_request:
-    branches:
   push:
     branches:
       - master
-  workflow_dispatch:
-    branches:
 
 jobs:
   build:
@@ -60,28 +56,6 @@ jobs:
       run: |
         echo "def test_2(): pass" > nothing2.py
         nosetests nothing2.py
-        
-  # The next 3 steps are for building the web application to be tested and starting the web server on the runner environment
-    - name: Get Allure history
-      uses: actions/checkout@v2
-      if: always()
-      continue-on-error: true
-      with:
-        ref: gh-pages
-        path: gh-pages
-    - name: Generate Allure report
-      uses: simple-elf/allure-report-action@master
-      if: always()
-      with:
-        allure_results: allure-results
-        allure_history: allure-history
-    - name: Deploy report to Github Pages
-      if: always()
-      uses: peaceiris/actions-gh-pages@v2
-      env:
-        PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        PUBLISH_BRANCH: gh-pages
-        PUBLISH_DIR: allure-history
         
         
     #- name: Run pytest examples/unit_tests/verify_framework.py --browser=chrome --headless
