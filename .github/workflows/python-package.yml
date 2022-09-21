@@ -60,6 +60,50 @@ jobs:
       run: |
         echo "def test_2(): pass" > nothing2.py
         nosetests nothing2.py
+        
+  # The next 3 steps are for building the web application to be tested and starting the web server on the runner environment
+    - name: 'Checkout the repository'
+      uses: actions/checkout@v2
+    - name: Run apt update
+      run: sudo apt update
+    - name: Uninstall existing libcurl4
+      run: sudo apt remove libcurl4
+    - name: Install libcurl4 for curb gem
+      run: sudo apt-get install libcurl4-openssl-dev
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1 
+      with:
+        ruby-version: ${{ matrix.ruby-version }}
+    - name: Run bundler & gem installs
+      run: |
+        gem install bundler
+        bundle install --clean --force --gemfile=Gemfile
+    - name: 'Running application under test'
+      run: ./node_modules/.bin/http-server -p 8099 &
+    - name: 'Running test on BrowserStack'  # Invokes the actual test script that would run on BrowserStack browsers
+      run: target=mms_test app_type=headless browser_type=chrome bundle exec rspec
+    - name: Get Allure history
+      uses: actions/checkout@v2
+      if: always()
+      continue-on-error: true
+      with:
+        ref: gh-pages
+        path: gh-pages
+    - name: Generate Allure report
+      uses: simple-elf/allure-report-action@master
+      if: always()
+      with:
+        allure_results: allure-results
+        allure_history: allure-history
+    - name: Deploy report to Github Pages
+      if: always()
+      uses: peaceiris/actions-gh-pages@v2
+      env:
+        PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        PUBLISH_BRANCH: gh-pages
+        PUBLISH_DIR: allure-history
+        
+        
     #- name: Run pytest examples/unit_tests/verify_framework.py --browser=chrome --headless
     #  run: |
     #    pytest examples/unit_tests/verify_framework.py --browser=chrome --headless -v -s --junit-xml=junit/test-results.xml
