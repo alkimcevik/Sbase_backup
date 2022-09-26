@@ -144,7 +144,7 @@ jobs:
         pytest examples/nypl_tests/test_locations.py --browser=chrome --headless -v -s 
         
         
-    - name: Run pytest examples/nypl_tests/test_online_resources.py --browser=chrome --xvfb
+    - name: Run pytest examples/nypl_tests/test_online_resources.py --browser=chrome --env=qa --xvfb
       continue-on-error: true
       run: |
         pytest examples/nypl_tests/test_online_resources.py --browser=chrome --headless -v -s 
