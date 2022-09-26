@@ -1,4 +1,3 @@
-# from test.s_base.pages.footer_page import Footer
 from examples.nypl_pages.footer_page import Footer
 
 
@@ -43,21 +42,28 @@ class FooterTest(Footer):
 
         self.assert_element(self.facebook)
         self.click(self.facebook)
-        # print(self.get_current_url())
-        self.assert_true("facebook" in self.get_current_url())
-        self.go_back()
+        self.assert_true('https://www.facebook.com/nypl' in self.get_current_url())
+        # self.go_back()
+        self.open_home_page()
 
         self.assert_element(self.twitter)
         self.click(self.twitter)
-        self.assert_true('twitter' in self.get_current_url())
-        self.go_back()
+        self.assert_true('https://twitter.com/nypl' in self.get_current_url())
+        print(self.get_current_url())
+        # self.go_back()
+        self.open_home_page()
 
         self.assert_element(self.instagram)
         self.click(self.instagram)
-        self.assert_true('instagram' in self.get_current_url())
-        self.go_back()
+        print(self.get_current_url())
+
+        self.assert_true('instagram.com/' in self.get_current_url())
+
+        # self.go_back()
+        self.open_home_page()
 
         self.assert_element(self.youtube)
         self.click(self.youtube)
-        self.assert_true('youtube' in self.get_current_url())
-        self.go_back()
+        self.assert_true('https://www.youtube.com/user/NewYorkPublicLibrary' in self.get_current_url())
+        # self.go_back()
+        self.open_home_page()

@@ -52,4 +52,12 @@ class Footer(BaseCase):
     youtube = '//*[@id="SocialMediaList"]/li[4]/a'
 
     def open_home_page(self):
-        self.open("https://www.nypl.org/")
+        # self.open("https://www.nypl.org/")
+
+        if self.env == "production":
+            print("Running on Prod Env")
+            self.open("https://www.nypl.org/")
+
+        elif self.env == "qa":
+            print("Running on QA Env")
+            self.open("https://qa-www.nypl.org/")
