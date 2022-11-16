@@ -11,4 +11,12 @@ class CampaignsPage(BaseCase):
     second_card = '//*[@id="block-nypl-emulsify-content"]/div/div/div[1]'
 
     def open_campaigns_page(self):
-        self.open("https://www.nypl.org/125")
+        # self.open("https://www.nypl.org/125")
+
+        if self.env == "qa":
+            print("Running on QA Env")
+            self.open("https://qa-www.nypl.org/125")
+
+        else:
+            print("Running on Production Env")
+            self.open("https://www.nypl.org/125")

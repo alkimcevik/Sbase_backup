@@ -1,4 +1,5 @@
-#from test.s_base.pages.locations_page import LocationsPage
+import pytest
+
 from examples.nypl_pages.locations_page import LocationsPage
 from random import randrange
 import time
@@ -9,16 +10,19 @@ class Locations(LocationsPage):
 
     def setUp(self):
         super().setUp()
-        print("\nRUNNING BEFORE EACH TEST")
+        print("\n=================================")
+        print("RUNNING BEFORE EACH TEST")
 
         # open locations page
         self.open_locations_page()
 
     def tearDown(self):
         print("RUNNING AFTER EACH TEST")
+        print("=================================")
         super().tearDown()
 
     def test_main_page_elements(self):
+        print("test_main_page_elements()\n")
         # assert page elements
         self.assert_element(self.locations)
         self.assert_element(self.welcome_text)
@@ -54,7 +58,7 @@ class Locations(LocationsPage):
         self.assert_true(total_library_number > open_library_number)
 
         # map iframe, switch to iframe
-        self.switch_to_frame('//*[@id="locations-gmap"]/div[2]/div[1]/div/div/iframe')
+        self.switch_to_frame('//*[@id="locations-gmap"]/div[3]/div/div/iframe')  # iframe xpath may be dynamic
         self.switch_to_default_content()
 
         # lower page elements
@@ -66,6 +70,7 @@ class Locations(LocationsPage):
         self.assert_element('//*[@id="main-content"]/div[2]/div[2]/div[1]/div/div[2]')
 
     def test_borough(self):
+        print("test_borough()\n")
         self.assert_element(self.borough)
 
         # assert bronx for a random(randrange(1, 35)) location
@@ -99,45 +104,33 @@ class Locations(LocationsPage):
         self.click(self.clear_boro)
 
     def test_accessibility(self):
-        # assert "Full Accessibility"
-        self.assert_(self.accessibility)
-
+        print("test_accessibility()\n")
         # assert fully access
         self.click(self.accessibility)
         self.click(self.full_access)
         self.click(self.apply_access)
-        time.sleep(3)
+        time.sleep(2)
 
         # total number of libraries with full accessibility
         total_lib = len(self.find_elements('//*[@id="locations-list"]/div[2]/ul/li'))
-        print("Total fully accessible library number is " + str(total_lib))
+        print("Total fully accessible library number is " + str(total_lib) + "\n")
 
-        # for loop to iterate locations and find the ones without "Fully Accessible" text
-        count = 0  # count = libraries that don't have accessibility
+        count = 0  # counter for the libraries that don't have full accessibility
         for x in range(1, total_lib + 1):
-            y = [6, 7, 11, 14, 16, 19, 23, 25, 29, 32, 33, 40, 46, 47, 50, 53, 55, 56, 58, 65, 68, 73, 75, 76,
-                 77, 78, 79, 87, 93, 94, 96, 97, 98]
-            if x in y:
-                text = self.get_text('//*[@id="locations-list"]/div[2]/ul/li[' + str(x) + ']/div/div[4]/div[2]')
-                if 'Fully Accessible' in text:
-                    continue
-                else:
-                    print(
-                        self.get_text('/html/body/div[1]/div/div[2]/main/div[2]/div[1]/div/div[1]/div[2]/ul/li[' + str(
-                            x) + ']/div/h2/a'))
-                    count += 1
-
-            text = self.get_text('//*[@id="locations-list"]/div[2]/ul/li[' + str(x) + ']/div/div[3]/div[2]')
+            text = self.get_text('//*[@id="locations-list"]/div[2]/ul/li[' + str(x) + ']/div')
             if 'Fully Accessible' in text:
                 continue
             else:
-                print(self.get_text('/html/body/div[1]/div/div[2]/main/div[2]/div[1]/div/div[1]/div[2]/ul/li[' + str(
-                    x) + ']/div/h2/a'))
+                print(self.get_text(
+                    '/html/body/div[1]/div/div[2]/main/div[2]/div[1]/div/div[1]/div[2]/ul/li[' + str(x) + ']/div/h2/a'))
                 count += 1
-        print(str(count) + " libraries don't have full access yet listed on the 'Fully Accessible' filter")
+
+        if count >= 1 :
+            print("\n" + str(count) + " libraries don't have full access yet listed on the 'Fully Accessible' filter")
         self.assert_(count < 1)
 
     def test_partial_accessibility(self):
+        print("test_partial_accessibility()\n")
         # assert "Partially Accessibility"
         self.assert_(self.accessibility)
 
@@ -149,22 +142,23 @@ class Locations(LocationsPage):
 
         # total number of libraries with partial accessibility
         total_partial_lib = len(self.find_elements('//*[@id="locations-list"]/div[2]/ul/li'))
-        print(total_partial_lib)
+        print(str(total_partial_lib) + " total partial accessible libraries:\n")
 
         # for loop to assert locations have "partially accessible" text
         count = 0
         for x in range(1, total_partial_lib + 1):
             text = self.get_text('//*[@id="locations-list"]/div[2]/ul/li[' + str(x) + ']/div/div[3]/div[2]')
+            print(self.get_text('/html/body/div[1]/div/div[2]/main/div[2]/div[1]/div/div[1]/div[2]/ul/li[' + str(x) + ']/div/h2/a'))
             print(text)
             self.assert_("Partially Accessible" in text)
             count += 1
+            print("===============")
         print(str(count) + " libraries with Partial Accessibility")
 
-    # TODO: finish this after the bug fixed for
-    #  https://jira.nypl.org/browse/RENO-2961
-    '''
+    @pytest.mark.skip(reason="RENO-2961 needed to be fixed")
     def test_not_accessible(self):
-        # TODO: finish this after the bug fixed for
+        print("test_not_accessible()\n")
+        # TODO: update this after the bug fixed for
         #  https://jira.nypl.org/browse/RENO-2961
         self.click(self.accessibility)
         self.click(self.not_access)
@@ -182,20 +176,21 @@ class Locations(LocationsPage):
             self.assert_("Not Accessible" in text)
             count += 1
         print(str(count) + " libraries with No Accessibility")
-        
-    '''
 
     def test_amenities(self):
+        print("test_amenities()\n")
         # assert amenities
         self.assert_(self.amenities)
 
         # assert 'amenities' length, which is 42 as of June 2022
         amenities_len = len(self.find_elements('/html/body/div[1]/div/div[2]/main/div[1]/div[2]/div/div/form/div['
                                                '2]/div[2]/div[1]/div/div[3]/div/div/div[1]/ul/li'))
+        print(amenities_len)  # optional print of the amenities length
 
         self.assert_true(amenities_len > 10, "amenities filter smaller than expected")
 
     def test_subject_specialties(self):
+        print("test_subject_specialties()\n")
         # assert subject_specialties
         self.assert_(self.subject_specialties)
 
@@ -237,12 +232,13 @@ class Locations(LocationsPage):
         # length of the filter
         social_length = len(self.find_elements('/html/body/div[1]/div/div[2]/main/div[1]/div[2]/div/div/form/div[2]/div[2]/div[2]/div/div[1]/div/div/div[1]/ul/li'))
 
-        # assert social sciences length, as of June 2022 it is 10
+        # assert social science's length, as of June 2022 it is 10
         print("Social Sciences length is " + str(social_length))
         self.assert_true(social_length > 8)
         self.click(self.clear_specialties)
 
     def test_media_types(self):
+        print("test_media_types()\n")
         # assert media types button
         self.assert_(self.media_types)
 
@@ -260,9 +256,12 @@ class Locations(LocationsPage):
         self.assert_true(media_types_len > 10)
         self.click(self.clear_media)
 
+    @pytest.mark.skip(reason="Wait for developer input on how to test")
     def test_open_hours(self):
+        print("test_open_hours()\n")
+        # TODO ask developer where/how to get the "open hours" of the library, e.g.
+
         """
-        //TODO ask John hours where to get the "open hours" of the library, e.g.
         https://d8.nypl.org/node/41/edit?destination=/admin/content/locations
 
         "John: They are affected by closings entered here. Math is done to subtract closed hours from open hours.

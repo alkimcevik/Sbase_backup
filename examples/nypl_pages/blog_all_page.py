@@ -3,6 +3,9 @@ from seleniumbase import BaseCase
 
 class BlogAllPage(BaseCase):
     explore_by = '//*[@id="search-filters--heading"]'
+    search_results = '//*[@id="search-results-details"]'
+
+    clear_all_search_terms = '//*[@id="search-results-details__button"]'
 
     channels = '//*[@id="multiselect-channel"]/button'
     channel_links = '//*[@id="multiselect-channel"]/div/ul'
@@ -24,6 +27,10 @@ class BlogAllPage(BaseCase):
     audience = '//*[@id="multiselect-audience_by_age"]/button'
     apply_audience = '//*[@id="multiselect-button-save-audience_by_age"]'
     clear_audience = '//*[@id="multiselect-button-clear-audience_by_age"]'
+
+    adults = '//*[@id="multiselect-audience_by_age"]/div/ul/li[1]/label/span[2]'
+    kids = '//*[@id="multiselect-audience_by_age"]/div/ul/li[2]/label/span[2]'
+    teens = '//*[@id="multiselect-audience_by_age"]/div/ul/li[3]/label/span[2]'
 
     li_dic = {"asian_american": '//*[contains(text(), "Asian American & Pacific Islander Culture")]'
         , "biography": '//*[contains(text(), "Biography & Memoir")]',
@@ -91,4 +98,13 @@ class BlogAllPage(BaseCase):
                     'Theatre on Film and Tape Archive': 'The New York Public Library for the Performing Arts'}
 
     def open_blog_page(self):
-        self.open("https://www.nypl.org/blog/all")
+        # self.open("https://www.nypl.org/blog/all")
+
+        if self.env == "qa":
+            print("Running on QA Env")
+            self.open("https://qa-www.nypl.org/blog/all")
+
+        else:
+            print("Running on Production Env")
+            self.open("https://www.nypl.org/blog/all")
+

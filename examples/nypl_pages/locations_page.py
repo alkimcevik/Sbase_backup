@@ -47,4 +47,13 @@ class LocationsPage(BaseCase):
     archives = '//*[@id="search-form"]/div[2]/div[2]/div[2]/div/div[2]/div/div/div[1]/ul/li[1]/div/label/span[2]'
 
     def open_locations_page(self):
-        self.open("https://www.nypl.org/locations")
+        # self.open("https://www.nypl.org/locations")
+
+        if self.env == "qa":
+            print("Running on QA Env")
+            self.open("https://qa-www.nypl.org/locations")
+
+        else:
+            print("Running on Production Env")
+            self.open("https://www.nypl.org/locations")
+

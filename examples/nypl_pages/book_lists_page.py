@@ -13,7 +13,7 @@ class BookListsPage(BaseCase):
     kids = '//*[@id="audience-navigation--"]/li[3]/a'
 
     h2_heading_year = '//*[@id="views-exposed-form-search-book-list-page-book-list-grid"]/div/h2'
-    submit = '//*[@id="views-exposed-form-search-book-list-page-book-list-grid"]/div/div/div/div/span/label'
+    submit = '//*[@id="views-exposed-form-search-book-list-page-book-list-grid"]/div/div/button'
     selected_year = '//*[@id="year"]/option[1]'
 
     filter_results_below = "//*[@id='block-booklistsappealterms']//h3"
@@ -23,8 +23,16 @@ class BookListsPage(BaseCase):
     about_best_books = ''
 
     def open_book_lists_page(self):
-        self.open("https://www.nypl.org/books-more/recommendations/125/adults")
+        # self.open("https://www.nypl.org/books-more/recommendations/125/adults")
 
-    # https://www.nypl.org/books-more/recommendations/125/adults
-    # https://www.nypl.org/books-more/recommendations/best-books/adults
-    # https://www.nypl.org/books-more/recommendations/staff-picks/adults
+        # https://www.nypl.org/books-more/recommendations/125/adults
+        # https://www.nypl.org/books-more/recommendations/best-books/adults
+        # https://www.nypl.org/books-more/recommendations/staff-picks/adults
+
+        if self.env == "qa":
+            print("Running on QA Env")
+            self.open("https://qa-www.nypl.org/books-more/recommendations/125/adults")
+
+        else:
+            print("Running on Production Env")
+            self.open("https://www.nypl.org/books-more/recommendations/125/adults")

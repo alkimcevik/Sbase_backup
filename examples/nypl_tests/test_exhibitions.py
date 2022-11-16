@@ -1,4 +1,3 @@
-#from test.s_base.pages.exhibitions_page import ExhibitionsPage
 from examples.nypl_pages.exhibitions_page import ExhibitionsPage
 from random import randrange
 
@@ -14,17 +13,20 @@ class Exhibitions(ExhibitionsPage):
 
     def setUp(self):
         super().setUp()
-        print("\nRUNNING BEFORE EACH TEST")
+        print("\n=================================")
+        print("RUNNING BEFORE EACH TEST")
 
         # open exhibitions page
         self.open_exhibitions_page()
 
     def tearDown(self):
         print("RUNNING AFTER EACH TEST")
+        print("=================================")
         super().tearDown()
 
     def test_exhibitions_main_page_elements(self):
         # https://www.nypl.org/events/exhibitions
+        print("test_exhibitions_main_page_elements()\n")
 
         # assert breadcrumbs and page elements
         self.assert_element(self.home)
@@ -149,9 +151,9 @@ class Exhibitions(ExhibitionsPage):
                     x) + ']/a/img')
 
             # asserting 'online only' is displayed
-            self.assert_element(
-                '//*[@id="block-nypl-emulsify-content"]/div/div/div[5]/div[2]/div/div/div/ul/li[' + str(
-                    x) + ']/div/div[2]/div[1]/div')
+            exhibition_text = self.get_text(
+                '//*[@id="block-nypl-emulsify-content"]/div/div/div[5]/div[2]/div/div/div/ul/li[' + str(x) + ']/div')
+            self.assert_true("Online Only" in exhibition_text)
 
             # asserting 'Online Exhibition' content
             online_exhibition_link_text = self.get_text(
@@ -179,11 +181,14 @@ class Exhibitions(ExhibitionsPage):
         past_exh_length = len(
             self.find_elements('//*[@id="block-nypl-emulsify-content"]/div/div/div[6]/div[2]/div/div/ul/div'))
 
+        print("URL before the loop")
+        print(self.get_current_url())
         for x in range(1, past_exh_length + 1):
-            # asserting the image
+            # asserting the images
             self.is_element_visible(
                 '//*[@id="block-nypl-emulsify-content"]/div/div/div[6]/div[2]/div/div/ul/div[' + str(x) + ']/a/img')
-            self.click('//*[@id="block-nypl-emulsify-content"]/div/div/div[6]/div[2]/div/div/ul/div[' + str(x) + ']')
+            # asserting the 'past exhibitions' (3 of them as May 2022)
+            self.click('//*[@id="block-nypl-emulsify-content"]/div/div/div[6]/div[2]/div/div/ul/div[' + str(x) + ']/div/a')
             self.go_back()
 
             # asserting 'Past Exhibitions' content
@@ -192,7 +197,8 @@ class Exhibitions(ExhibitionsPage):
                     x) + ']/div/a/h3/span')
             print(past_exhibitions_link_text)
             self.click(
-                '//*[@id="block-nypl-emulsify-content"]/div/div/div[6]/div[2]/div/div/ul/div[' + str(x) + ']')
+                '//*[@id="block-nypl-emulsify-content"]/div/div/div[6]/div[2]/div/div/ul/div[' + str(x) + ']/div/a')
+            print(self.get_current_url())
             past_exhibitions_hero_text = self.get_text('//*[@id="block-content-hero-header"]/div/div[2]/div[1]/h1/span')
             print(past_exhibitions_hero_text)
             self.assert_true(past_exhibitions_link_text in past_exhibitions_hero_text)
@@ -202,7 +208,15 @@ class Exhibitions(ExhibitionsPage):
 
     def test_exhibitions_upcoming(self):
         # https://www.nypl.org/events/exhibitions/upcoming
-        self.open('https://www.nypl.org/events/exhibitions/upcoming')
+        print("test_exhibitions_upcoming()\n")
+
+        if self.env == "qa":
+            print("Running on QA Env")
+            self.open("https://qa-www.nypl.org/events/exhibitions/upcoming")
+
+        else:
+            print("Running on Production Env")
+            self.open("https://www.nypl.org/events/exhibitions/upcoming")
 
         # assert breadcrumbs and page elements
         self.assert_element(self.home)
@@ -238,7 +252,15 @@ class Exhibitions(ExhibitionsPage):
 
     def test_exhibitions_past(self):
         # https://www.nypl.org/events/exhibitions/past
-        self.open('https://www.nypl.org/events/exhibitions/past')
+        print("test_exhibitions_past()\n")
+
+        if self.env == "qa":
+            print("Running on QA Env")
+            self.open("https://qa-www.nypl.org/events/exhibitions/past")
+
+        else:
+            print("Running on Production Env")
+            self.open("https://www.nypl.org/events/exhibitions/past")
 
         # assert breadcrumbs and page elements
         self.assert_element(self.home)
@@ -289,7 +311,15 @@ class Exhibitions(ExhibitionsPage):
 
     def test_exhibitions_archived_exhibition_resources(self):
         # https://www.nypl.org/events/exhibitions/archived-exhibition-resources
-        self.open('https://www.nypl.org/events/exhibitions/archived-exhibition-resources')
+        print("test_exhibitions_archived_exhibition_resources()\n")
+
+        if self.env == "qa":
+            print("Running on QA Env")
+            self.open("https://qa-www.nypl.org/events/exhibitions/archived-exhibition-resources")
+
+        else:
+            print("Running on Production Env")
+            self.open("https://www.nypl.org/events/exhibitions/archived-exhibition-resources")
 
         # assert breadcrumbs and page elements
         self.assert_element(self.home)
@@ -350,7 +380,15 @@ class Exhibitions(ExhibitionsPage):
 
     def test_exhibitions_community_showcases(self):
         # https://www.nypl.org/events/exhibitions/archived-exhibition-resources
-        self.open('https://www.nypl.org/events/exhibitions/community-showcases')
+        print("test_exhibitions_community_showcases()\n")
+
+        if self.env == "qa":
+            print("Running on QA Env")
+            self.open("https://qa-www.nypl.org/events/exhibitions/community-showcases")
+
+        else:
+            print("Running on Production Env")
+            self.open("https://www.nypl.org/events/exhibitions/community-showcases")
 
         # assert breadcrumbs and page elements
         self.assert_element(self.home)
@@ -406,7 +444,15 @@ class Exhibitions(ExhibitionsPage):
 
     def test_exhibitions_online(self):
         # https://www.nypl.org/events/exhibitions/online
-        self.open('https://www.nypl.org/events/exhibitions/online')
+        print("test_exhibitions_online()\n")
+
+        if self.env == "qa":
+            print("Running on QA Env")
+            self.open("https://qa-www.nypl.org/events/exhibitions/online")
+
+        else:
+            print("Running on Production Env")
+            self.open("https://www.nypl.org/events/exhibitions/online")
 
         # assert breadcrumbs and page elements
         self.assert_element(self.home)
@@ -447,6 +493,3 @@ class Exhibitions(ExhibitionsPage):
 
         print("- - - - - - - - - - - - - - - - - - - - - - - - - - - - ")
 
-    def test_random(self):
-
-        self.open('https://www.nypl.org/events/exhibitions/online')

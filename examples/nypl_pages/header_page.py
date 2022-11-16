@@ -5,10 +5,33 @@ class Header(BaseCase):
     lion_logo = '//*[@id="Logo"]'
 
     login = ".myNyplButton-wrapper"
+    login_catalog = '//*[@id="nyplHeader"]/div[2]/div[2]/nav/ul/li[1]/div/div/div/ul/li[1]/a'
+    login_research_catalog = '//*[@id="nyplHeader"]/div[2]/div[2]/nav/ul/li[1]/div/div/div/ul/li[2]/a'
     login_close = '//*[@id="nyplHeader"]/div[2]/div[2]/nav/ul/li[1]/div/a'
+
+    username = '//*[@id="code"]'
+    password = '//*[@id="pin"]'
+    submit = '//*[@id="fm1"]/div[3]/input'
+
+    search_research_catalog = '//*[@id="searchbar-button-mainContent"]'
+    h2_display_result = '//*[@id="results-description"]'
+    next_button = '//*[@id="SccContainer-content-primary"]/div[3]/nav/a'
+    previous_button = '//*[@id="SccContainer-content-primary"]/div[3]/nav/a[1]'
+
+    my_account = '//*[@id="patronAccountExternalLinkComponent"]'
+    logout = '//*[@id="Insert_2"]'
+    login_back = '//*[@id="Insert_0"]'
+
+    my_account_research_catalog = '//*[@id="2"]'
+    advanced_search_research = '//*[@id="advanced-search-link-container"]/a'
+    advanced_search_research_submit = '//*[@id="advancedSearchSubmit"]'
+    submit_warning = '//*[@id="advancedSearchAside"]'
+
+
     locations = ".locationsTopLink"
     get_a_library_card = ".libraryCardButton"
     get_email_updates = ".subscribeButton-wrapper"
+    get_email_updates_2 = '//*[@id="subscribeButton"]/span'
     get_email_updates_page_title = 'Subscription Center | The New York Public Library'
     donate = ".donateButton"
     donate_page_title = 'Make Your Tax-Deductible Gift Today - New York Public Library'
@@ -32,4 +55,12 @@ class Header(BaseCase):
     search = '//*[@id="header-navMenu-searchButton"]/span'
 
     def open_home_page(self):
-        self.open("https://www.nypl.org/")
+        # self.open("https://www.nypl.org/")
+
+        if self.env == "qa":
+            print("Running on QA Env")
+            self.open("https://qa-www.nypl.org/")
+
+        else:
+            print("Running on Production Env")
+            self.open("https://www.nypl.org/")

@@ -1,4 +1,3 @@
-# from test.s_base.pages.campaigns_page import CampaignsPage
 from examples.nypl_pages.campaigns_page import CampaignsPage
 
 
@@ -10,17 +9,20 @@ class Campaigns(CampaignsPage):
 
     def setUp(self):
         super().setUp()
-        print("\nRUNNING BEFORE EACH TEST")
+        print("\n=================================")
+        print("RUNNING BEFORE EACH TEST")
 
         # open campaigns page
         self.open_campaigns_page()
 
     def tearDown(self):
         print("RUNNING AFTER EACH TEST")
+        print("=================================")
         super().tearDown()
 
     def test_125(self):
         # https://www.nypl.org/125
+        print("test_125()\n")
 
         # assert home element
         self.assert_element(self.home)
@@ -56,7 +58,12 @@ class Campaigns(CampaignsPage):
 
     def test_125_timeline(self):
         # https://www.nypl.org/125/timeline
-        self.open('https://www.nypl.org/125/timeline')
+        print("test_125_timeline()\n")
+
+        if self.env == 'qa':
+            self.open('https://qa-www.nypl.org/125/timeline')
+        else:
+            self.open('https://www.nypl.org/125/timeline')
 
         # assert breadcrumbs
         self.assert_element(self._125_years)
@@ -84,7 +91,12 @@ class Campaigns(CampaignsPage):
 
     def test_125_topCheckouts(self):
         # https://www.nypl.org/125/topcheckouts
-        self.open('https://www.nypl.org/125/topcheckouts')
+        print("test_125_topCheckouts()\n")
+
+        if self.env == 'qa':
+            self.open('https://qa-www.nypl.org/125/topcheckouts')
+        else:
+            self.open('https://www.nypl.org/125/topcheckouts')
 
         # assert breadcrumbs
         self.assert_element(self._125_years)
@@ -134,7 +146,13 @@ class Campaigns(CampaignsPage):
                              '//*[@id="block-nypl-emulsify-content"]/div/div/div[5]/ul/li[2]')
 
     def test_125_topCheckouts_top10Books(self):
-        self.open('https://www.nypl.org/125/topcheckouts')
+        # https://www.nypl.org/125/topcheckouts
+        print("test_125_topCheckouts_top100Books()\n")
+
+        if self.env == 'qa':
+            self.open('https://qa-www.nypl.org/125/topcheckouts')
+        else:
+            self.open('https://www.nypl.org/125/topcheckouts')
 
         # asserting the 10 books/elements
         # asserting the top checkout number is equal to 10

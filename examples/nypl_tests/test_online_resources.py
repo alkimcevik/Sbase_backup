@@ -1,4 +1,3 @@
-# from test.s_base.pages.online_resources_page import OnlineResourcesPage
 from examples.nypl_pages.online_resources_page import OnlineResourcesPage
 
 
@@ -7,16 +6,19 @@ class OnlineResources(OnlineResourcesPage):
 
     def setUp(self):
         super().setUp()
-        print("\nRUNNING BEFORE EACH TEST")
+        print("\n=================================")
+        print("RUNNING BEFORE EACH TEST")
 
         # open exhibitions page
         self.open_online_resources_page()
 
     def tearDown(self):
         print("RUNNING AFTER EACH TEST")
+        print("=================================")
         super().tearDown()
 
     def test_online_resources_breadcrumbs(self):
+        print("test_online_resources_breadcrumbs()\n")
         # assert breadcrumbs
         self.assert_element(self.home)
         self.assert_element(self.research)
@@ -45,12 +47,13 @@ class OnlineResources(OnlineResourcesPage):
         self.assert_element(self.availability_button)
 
     def test_online_resources_main_page_elements(self):
+        print("test_online_main_page_elements()\n")
         # asserting h2 heading and its elements
         self.assert_element(self.featured_resources)
 
         # getting the length of the list of elements on the 'Featured Resources'
         featured_list_length = len(self.find_elements('/html/body/div[1]/div/div[2]/main/div[2]/div[1]/div[1]/ul/li'))
-        print("featuerd list length is = " + str(featured_list_length))
+        print("featured list length is = " + str(featured_list_length))
 
         # asserting the h3 links on the list
         for x in range(1, featured_list_length + 1):
@@ -58,7 +61,12 @@ class OnlineResources(OnlineResourcesPage):
                 '/html/body/div[1]/div/div[2]/main/div[2]/div[1]/div[1]/ul/li[' + str(x) + ']/div/div[2]/h3/a',
                 '/html/body/div[1]/div/div[2]/main/div[2]/div[1]/div[1]/ul/li[' + str(x) + ']/div/div[2]/h3/a')
             self.wait(1)
-            self.go_back()
+
+            if self.env == "qa":
+                self.open("https://qa-www.nypl.org/research/collections/articles-databases")
+
+            else:
+                self.open("https://www.nypl.org/research/collections/articles-databases")
 
         # asserting 'most popular' h2
         self.assert_element(self.most_popular)
@@ -70,7 +78,11 @@ class OnlineResources(OnlineResourcesPage):
         for x in range(1, most_pop_length + 1):
             self.click('/html/body/div[1]/div/div[2]/main/div[2]/div[1]/div[2]/ul/li[' + str(x) + ']/div/div/h3/a')
             self.wait(0.5)
-            self.go_back()
+            if self.env == "qa":
+                self.open("https://qa-www.nypl.org/research/collections/articles-databases")
+
+            else:
+                self.open("https://www.nypl.org/research/collections/articles-databases")
 
         # assert bottom a-z article & databases element
         self.assert_element(self.a_z_database)
@@ -82,13 +94,18 @@ class OnlineResources(OnlineResourcesPage):
 
         # for loop to go over every letter
         for x in range(1, alpha_length + 1):
-            if x == 24:
+            if x == 24:  # skipping 'X' letter as it does not have any data
                 continue
             self.click('//*[@id="page-container--content-primary"]/div[3]/div[2]/a[' + str(x) + ']')
             self.wait(1)
-            self.go_back()
+            if self.env == "qa":
+                self.open("https://qa-www.nypl.org/research/collections/articles-databases")
+
+            else:
+                self.open("https://www.nypl.org/research/collections/articles-databases")
 
     def test_online_resources_subjects_filter(self):
+        print("test_online_resources_subjects_filter()\n")
         # asserting the 'Subjects' filter
         # clicking every filter in the Subjects filter and asserting their lengths
         self.click(self.subjects_button)
@@ -122,6 +139,7 @@ class OnlineResources(OnlineResourcesPage):
             self.click(self.clear_subject)
 
     def test_online_resources_audience(self):
+        print("test_online_resources_audience()\n")
         # asserting the 3 audience filters, 'adults, kids, teens' by checking if the char count is
         # more than given (1000) amount
         for x in range(1, 4):
@@ -149,6 +167,7 @@ class OnlineResources(OnlineResourcesPage):
         print("---------------------------------------------------------------------")
 
     def test_online_resources_availability(self):
+        print("test_online_resources_availability()\n")
         # asserting the 'availability' filter
 
         # for loop to go over 3 items and click them 1 after each other
@@ -167,6 +186,7 @@ class OnlineResources(OnlineResourcesPage):
         self.click(self.clear_availability)
 
     def test_online_resources_right_side_tab(self):
+        print("test_online_resources_right_side_tab()\n")
         # assert ' more research tools' h2
         self.assert_element(self.more_research)
 
@@ -191,9 +211,13 @@ class OnlineResources(OnlineResourcesPage):
             self.go_back()
 
     def test_online_resources_search_page(self):
+        print("test_online_resources_search_page()\n")
         # testing a blank search, no keys entered
         # go to blank search page
-        self.goto('https://www.nypl.org/research/collections/articles-databases/search?q=&page=1')
+        if self.env == "qa":
+            self.open("https://qa-www.nypl.org/research/collections/articles-databases/search?q=&page=1")
+        else:
+            self.open("https://www.nypl.org/research/collections/articles-databases/search?q=&page=1")
 
         # assert h3 headings elements amount and if they are queal or greater than 10
 
@@ -207,5 +231,9 @@ class OnlineResources(OnlineResourcesPage):
             self.wait_for_element(
                 '/html/body/div[1]/div/div[2]/main/div[2]/div[1]/div/div[2]/div[' + str(x) + ']/div/div[1]/h3/a')
             self.click('/html/body/div[1]/div/div[2]/main/div[2]/div[1]/div/div[2]/div[' + str(x) + ']/div/div[1]/h3/a')
-            self.go_back()
+            # go back
+            if self.env == "qa":
+                self.open("https://qa-www.nypl.org/research/collections/articles-databases/search?q=&page=1")
+            else:
+                self.open("https://www.nypl.org/research/collections/articles-databases/search?q=&page=1")
             self.wait(1)

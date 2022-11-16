@@ -43,4 +43,12 @@ class ExhibitionsPage(BaseCase):
     online_only_xpath = '//*[@id="block-nypl-emulsify-content"]/div/div/div/div/div/div/div/ul/li[1]/div/div[2]/div[1]/div'
 
     def open_exhibitions_page(self):
-        self.open("https://www.nypl.org/events/exhibitions")
+        # self.open("https://www.nypl.org/events/exhibitions")
+
+        if self.env == "qa":
+            print("Running on QA Env")
+            self.open("https://qa-www.nypl.org/events/exhibitions")
+
+        else:
+            print("Running on Production Env")
+            self.open("https://www.nypl.org/events/exhibitions")

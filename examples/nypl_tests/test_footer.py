@@ -7,16 +7,19 @@ class FooterTest(Footer):
 
     def setUp(self):
         super().setUp()
-        print("\nRUNNING BEFORE EACH TEST")
+        print("\n=================================")
+        print("RUNNING BEFORE EACH TEST")
 
         # open blog page
         self.open_home_page()
 
     def tearDown(self):
         print("RUNNING AFTER EACH TEST")
+        print("=================================")
         super().tearDown()
 
     def test_footer(self):
+        print("test_footer()\n")
         # assert nypl logo
         self.assert_element(self.nypl_logo)
         # assert main building image
@@ -33,8 +36,6 @@ class FooterTest(Footer):
         x = 0
         while x < len(links_list):
             self.assert_element(self.footer_links_dic["" + links_list[x] + ""])
-            print(self.assert_element(self.footer_links_dic["" + links_list[x] + ""])
-                  )
             x += 1
 
         # social media assertions

@@ -43,4 +43,12 @@ class OnlineResourcesPage(BaseCase):
     more_research = '//*[@id="more-research-tools"]'
 
     def open_online_resources_page(self):
-        self.open("https://www.nypl.org/research/collections/articles-databases")
+        # self.open("https://www.nypl.org/research/collections/articles-databases")
+
+        if self.env == "qa":
+            print("Running on QA Env")
+            self.open("https://qa-www.nypl.org/research/collections/articles-databases")
+
+        else:
+            print("Running on Production Env")
+            self.open("https://www.nypl.org/research/collections/articles-databases")
