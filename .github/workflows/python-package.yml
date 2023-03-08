@@ -18,9 +18,9 @@ jobs:
         python-version: ["3.10"] 
 
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v3
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v1
+      uses: actions/setup-python@v4
       with:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies
@@ -36,18 +36,13 @@ jobs:
         # pip install flake8
         # Stop the build if there are flake8 issues
         # flake8 . --count --show-source --statistics --exclude=temp
-    - name: Install Chrome and Firefox
+    - name: Install chromedriver
       run: |
-        sudo apt install google-chrome-stable
-        sudo apt-get install firefox
+        seleniumbase install chromedriver
     - name: Check the console scripts interface
       run: |
         seleniumbase
         sbase
-    - name: Install chromedriver and geckodriver (Firefox Webdriver)
-      run: |
-        seleniumbase install chromedriver
-        seleniumbase install geckodriver
     - name: Make sure pytest is working
       run: |
         echo "def test_1(): pass" > nothing.py
@@ -141,13 +136,13 @@ jobs:
     - name: Run pytest examples/nypl_tests/test_locations.py --browser=chrome --xvfb
       continue-on-error: true
       run: |
-        pytest examples/nypl_tests/test_locations.py --browser=chrome --headless -v -s 
+        pytest examples/nypl_tests/test_locations.py --rs --browser=chrome --headless -v -s -n=6 --reruns=2
         
         
     - name: Run pytest examples/nypl_tests/test_online_resources.py --browser=chrome --env=qa --xvfb
       continue-on-error: true
       run: |
-        pytest examples/nypl_tests/test_online_resources.py --browser=chrome --headless -v -s 
+        pytest examples/nypl_tests/test_online_resources.py --rs --browser=chrome --headless -v -s -n=6 --reruns=2
     
     
     
