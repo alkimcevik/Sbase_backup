@@ -1,4 +1,4 @@
-from examples.nypl_pages.campaigns_page import CampaignsPage
+from examples.nypl_pages.page_campaigns import CampaignsPage
 
 
 class Campaigns(CampaignsPage):
@@ -25,10 +25,10 @@ class Campaigns(CampaignsPage):
         print("test_125()\n")
 
         # assert home element
-        self.assert_element(self.home)
+        self.assert_element(CampaignsPage.home)
 
-        # assert main card
-        self.assert_element(self.main_card)
+        # assert hero
+        self.assert_element(CampaignsPage.main_card)
 
         # assert rest of the cards in range (1, card_length)
         card_length = len(self.find_elements('/html/body/div[1]/div/main/div[2]/div/div/div/div/div'))
@@ -37,9 +37,7 @@ class Campaigns(CampaignsPage):
             # assert each card in the page, there is 16 cards as of June 2022
             card_xpath = '/html/body/div[1]/div/main/div[2]/div/div/div/div/div[' + str(x) + ']'
             self.assert_element(card_xpath)
-            # optional hovering over the element for visibility and printing
-            # self.hover_on_element(card_xpath)
-            # print("assert number = " + str(x))
+            # print("assert number = " + str(x))  # optional print
 
         print("\n")
 
@@ -66,8 +64,8 @@ class Campaigns(CampaignsPage):
             self.open('https://www.nypl.org/125/timeline')
 
         # assert breadcrumbs
-        self.assert_element(self._125_years)
-        self.assert_element(self.timeline_h1)
+        self.assert_element(CampaignsPage._125_years)
+        self.assert_element(CampaignsPage.timeline_h1)
 
         # asserting cards in the page, 45 of them as of June 2022
         cards_length = len(self.find_elements('//*[@id="block-nypl-emulsify-content"]/div/div/div'))
@@ -79,9 +77,6 @@ class Campaigns(CampaignsPage):
 
         # asserting rest of the 44 h2 and paragraphs, starting from the 2nd one
         for x in range(2, cards_length + 1):
-            # first two hovering on and printing h2's are optional
-            # self.hover_on_element('//*[@id="block-nypl-emulsify-content"]/div/div/div[' + str(x) + ']/div/div/p')
-            # print(self.get_text('/html/body/div[1]/div/main/div[2]/div/div/div/div/div[' + str(x) + ']/div/h2'))
             self.assert_element('/html/body/div[1]/div/main/div[2]/div/div/div/div/div[' + str(x) + ']/div/h2')
             self.assert_element('//*[@id="block-nypl-emulsify-content"]/div/div/div[' + str(x) + ']/div/div/p')
 
@@ -99,11 +94,11 @@ class Campaigns(CampaignsPage):
             self.open('https://www.nypl.org/125/topcheckouts')
 
         # assert breadcrumbs
-        self.assert_element(self._125_years)
-        self.assert_element(self.checkouts_h1)
-        self.assert_elements(self.topcheckout_paragraphs)
+        self.assert_element(CampaignsPage._125_years)
+        self.assert_element(CampaignsPage.checkouts_h1)
+        self.assert_elements(CampaignsPage.topcheckout_paragraphs)
 
-        # asserting top 3 grid '125 books we love' ...
+        # asserting top 3 card grid '125 books we love' ...
         # length of the grid to use in 'for loop' for dynamic purposes in future
         grid_length = len(self.find_elements('//*[@id="block-nypl-emulsify-content"]/div/div/div[2]/ul/li'))
         for x in range(1, grid_length + 1):
@@ -137,7 +132,7 @@ class Campaigns(CampaignsPage):
 
         # asserting h2 header 'Honorable Mention'
         self.assert_element('//*[@id="block-nypl-emulsify-content"]/div/div/div[3]/div/h2')
-        # asserting the whole 'Honorable mention" div
+        # asserting the whole 'Honorable mention' div
         self.assert_element('//*[@id="block-nypl-emulsify-content"]/div/div/div[3]')
         # asserting landing page text- 'A note on Methodology'
         self.assert_element('//*[@id="block-nypl-emulsify-content"]/div/div/div[4]/div/div')
@@ -159,6 +154,7 @@ class Campaigns(CampaignsPage):
         top_checkout_number = len(self.find_elements('//*[@id="block-nypl-emulsify-content"]/div/div/ol/li'))
         self.assert_true(top_checkout_number == 10, "top checkout number is not equal to 10")
 
+        # asserting each book by clicking
         for y in range(1, top_checkout_number + 1):
             self.assert_element(
                 '//*[@id="block-nypl-emulsify-content"]/div/div/ol/li[' + str(y) + ']/div[1]/div[2]/div[3]/a[1]')
