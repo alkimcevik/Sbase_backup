@@ -133,16 +133,20 @@ jobs:
     #    pytest examples/nypl_tests/test_exhibitions.py --browser=chrome --headless -v -s 
         
         
-    - name: Run pytest examples/nypl_tests/test_locations.py --browser=chrome --xvfb
-      continue-on-error: true
-      run: |
-        pytest examples/nypl_tests/test_locations.py --rs --browser=chrome --headless -v -s -n=6 --reruns=2
+    #- name: Run pytest examples/nypl_tests/test_locations.py --browser=chrome --xvfb
+    #  continue-on-error: true
+    #  run: |
+    #    pytest examples/nypl_tests/test_locations.py --rs --browser=chrome --headless -v -s -n=6 --reruns=2
         
         
-    - name: Run pytest examples/nypl_tests/test_online_resources.py --browser=chrome --env=qa --xvfb
-      continue-on-error: true
-      run: |
-        pytest examples/nypl_tests/test_online_resources.py --rs --browser=chrome --headless -v -s -n=6 --reruns=2
+    #- name: Run pytest examples/nypl_tests/test_online_resources.py --browser=chrome --env=qa --xvfb
+    #  continue-on-error: true
+    #  run: |
+    #    pytest examples/nypl_tests/test_online_resources.py --rs --browser=chrome --headless -v -s -n=6 --reruns=2
     
+    - name: Run Schwarzman
+      continue-on-error: true
+      run: |
+        pytest examples/nypl_tests/test_schwarzman.py  --rs --browser=chrome --headless -v -s -n=6 --reruns=2
     
     
