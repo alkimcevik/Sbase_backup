@@ -5,7 +5,6 @@ from examples.nypl_pages.page_give import GivePage
 
 from selenium.webdriver.common.by import By
 
-
 import requests
 import urllib3
 
@@ -86,7 +85,6 @@ class NyplUtils(HeaderPage, SchwarzmanPage, GivePage):
                     f"WARNING: The requested resource at {url} has been definitively moved to the URL given by the Location headers")
             assert response.status_code < 400, f"Link {url} is broken"
         print("\n=====================================================\n")
-
 
     def image_assertion(self):
         broken_image_count = 0  # broken image number instantiation

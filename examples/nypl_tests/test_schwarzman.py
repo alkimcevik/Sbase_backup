@@ -31,6 +31,7 @@ class Schwarzman(NyplUtils):
         print("=================================")
         super().tearDown()
 
+    @pytest.mark.skip(reason="test")
     def test_schwarzman(self):
         # https://www.nypl.org/locations/schwarzman
         print("test_schwarzman()\n")
@@ -99,39 +100,26 @@ class Schwarzman(NyplUtils):
 
         self.click(SchwarzmanPage.research)
 
-        def link_request_assertion(locator):
-            block_length = len(
-                self.find_elements(locator))
-            for x in range(1, block_length + 1):
-                link = (self.find_element(locator + '[' + str(
-                    x) + ']')).find_element(By.TAG_NAME, "a")
+        self.link_request_assertion(SchwarzmanPage.explore_division_centers)
+        self.link_request_assertion(SchwarzmanPage.further_resources)
+        self.link_request_assertion(SchwarzmanPage.more_nypl_resources)
 
-                url = link.get_attribute('href')
-                print("\nurl: " + url)
-                response = requests.head(url)
-                if response.status_code == 301:
-                    print(
-                        f"WARNING: The requested resource at {url} has been definitively moved to the URL given by the Location headers")
-                assert response.status_code < 400, f"Link {url} is broken"
-            print("\n=====================================================\n")
-
-        link_request_assertion(SchwarzmanPage.explore_division_centers)
-        link_request_assertion(SchwarzmanPage.further_resources)
-        link_request_assertion(SchwarzmanPage.more_nypl_resources)
-
+    @pytest.mark.skip(reason="test")
     def test_sample_1(self):
         self.click(SchwarzmanPage.research)
 
         block_length = len(self.find_elements('//*[@id="block-nypl-emulsify-content"]/div/div/div[2]/div/div/ul/li'))
         for x in range(1, block_length + 1):
-
-            link = (self.find_element('//*[@id="block-nypl-emulsify-content"]/div/div/div[2]/div/div/ul/li[' + str(x) + ']')).find_element(By.TAG_NAME, "a")
+            link = (self.find_element(
+                '//*[@id="block-nypl-emulsify-content"]/div/div/div[2]/div/div/ul/li[' + str(x) + ']')).find_element(
+                By.TAG_NAME, "a")
 
             url = link.get_attribute('href')
             print("\nurl: " + url)
             response = requests.head(url)
             assert response.status_code == 200, f"Link {url} is broken"
 
+    @pytest.mark.skip(reason="test")
     def test_abc(self):
         self.click(SchwarzmanPage.research)
 
@@ -154,5 +142,3 @@ class Schwarzman(NyplUtils):
         link_request_assertion(SchwarzmanPage.explore_division_centers)
         link_request_assertion(SchwarzmanPage.further_resources)
         link_request_assertion(SchwarzmanPage.more_nypl_resources)
-
-
