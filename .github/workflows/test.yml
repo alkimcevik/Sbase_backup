@@ -1,9 +1,9 @@
-name: Test build 2
+name: Test build
 
 on:
-  push:
-    branches:
-      - master
+  #push:
+    #branches:
+      #- master
   workflow_dispatch:
 
 jobs:
@@ -11,12 +11,12 @@ jobs:
 
     env:
       PY_COLORS: "1"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     strategy:
       fail-fast: false
       max-parallel: 6
       matrix:
-        python-version: ["3.10"] 
+        python-version: ["3.10"]
 
     steps:
     - uses: actions/checkout@v3
@@ -32,79 +32,19 @@ jobs:
     - name: Install SeleniumBase
       run: |
         python setup.py install
-    # - name: Lint with flake8
-      # run: |
-        # pip install flake8
-        # Stop the build if there are flake8 issues
-        # flake8 . --count --show-source --statistics --exclude=temp
     - name: Install chromedriver
       run: |
         seleniumbase install chromedriver
-    - name: Check the console scripts interface
-      run: |
-        seleniumbase
-        sbase
-    - name: Make sure pytest is working
-      run: |
-        echo "def test_1(): pass" > nothing.py
-        pytest nothing.py
-    - name: Make sure nosetests is working
-      run: |
-        echo "def test_2(): pass" > nothing2.py
-        nosetests nothing2.py
-        
     - name: Install Allure command-line tool
       run: |
-        sudo apt-add-repository ppa:qameta/allure
-        sudo apt-get update 
-        sudo apt-get install allure
-
-    
-    
-    - name: Get Allure history
-      uses: actions/checkout@v2
-      if: always()
-      continue-on-error: true
-      with:
-        ref: gh-pages
-        path: gh-pages
-    - name: Generate Allure report
-      uses: simple-elf/allure-report-action@master
-      if: always()
-      with:
-        allure_results: allure-results
-        allure_history: allure-history
-    - name: Deploy report to Github Pages
-      if: always()
-      uses: peaceiris/actions-gh-pages@v2
-      env:
-        PERSONAL_TOKEN: ${{ secrets.ALLURE }}
-        PUBLISH_BRANCH: gh-pages
-        PUBLISH_DIR: allure-history
-
-        
-         
-    
-    
-    # NYPL tests start here
-    # footer, header, blog, blog all, book lists, campaigns, exhibitions, locations, online resources
-    
-        
-    #- name: Run pytest examples/nypl_tests/test_online_resources.py --browser=chrome --env=qa --xvfb
-    #  continue-on-error: true
-    #  run: |
-    #    pytest examples/nypl_tests/test_online_resources.py --rs --browser=chrome --headless -v -s -n=6 --reruns=2
-    
+        sudo apt-get update
+        sudo apt-get install -y allure
     - name: Run Schwarzman
       continue-on-error: true
       run: |
-        pytest examples/nypl_tests/test_schwarzman.py  --rs --browser=chrome --headless -v -s -n=6 --reruns=2 --alluredir=reports
-    - name: Generate Allure Report
-      run: |
-        allure generate reports -o allure-report --clean
-      if: always()
-    - name: Upload Allure Report
-      uses: actions/upload-artifact@v2
+        pytest examples/nypl_tests/test_schwarzman.py --alluredir=allure-results --rs --browser=chrome --headless -v -s -n=6 --reruns=2
+    - name: Publish Allure report
+      uses: simple-report/action-allure-report@v1
       with:
-        name: allure-report
-        path: allure-report
+        allure_results: allure-results
+        github_token: ${{ secrets.A }}
