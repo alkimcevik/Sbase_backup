@@ -47,4 +47,4 @@ jobs:
       uses: simple-report/action-allure-report@v1
       with:
         allure_results: allure-results
-        github_token: ${{ secrets.A }}
+        github_token: ${{ secrets.ALLURE }}
